@@ -1,0 +1,65 @@
+import socket
+import json
+import os
+
+CACHE_FILE = "dns_cache.json"
+
+def load_cache():
+    if os.path.exists(CACHE_FILE):
+        with open(CACHE_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_cache(cache):
+    with open(CACHE_FILE, "w") as f:
+        json.dump(cache, f, indent=2)
+
+def dns_to_ips(domain_name):
+    try:
+        _, _, ip_addresses = socket.gethostbyname_ex(domain_name)
+        return ip_addresses
+    except socket.gaierror:
+        return []
+
+def get_ips(domain, cache):
+    if domain in cache:
+        while True:
+            choice = input(f"Use cached IPs for {domain}? {cache[domain]} (y/n): ").strip().lower()
+            if choice == 'y':
+                return cache[domain]
+            elif choice == 'n':
+                break
+    ips = dns_to_ips(domain)
+    if ips:
+        cache[domain] = ips
+        save_cache(cache)
+    return ips
+
+def clear_cache():
+    if os.path.exists(CACHE_FILE):
+        os.remove(CACHE_FILE)
+        print("Cache cleared.")
+    else:
+        print("No cache file found.")
+
+if __name__ == "__main__":
+    print("DNS Resolver with Cache")
+    print("Options:")
+    print("1. Resolve domains")
+    print("2. Clear cache")
+    choice = input("Select option (1/2): ").strip()
+
+    if choice == '2':
+        clear_cache()
+        exit(0)
+
+    cache = load_cache()
+    domains_input = input("Enter domain names separated by spaces or commas: ")
+    domains = [d.strip() for d in domains_input.replace(',', ' ').split()]
+
+    for domain in domains:
+        ips = get_ips(domain, cache)
+        if ips:
+            print(f"IP addresses for {domain}: {', '.join(ips)}")
+        else:
+            print(f"Could not resolve domain: {domain}")    
