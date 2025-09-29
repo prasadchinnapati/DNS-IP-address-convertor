@@ -7,7 +7,7 @@ On subsequent runs, if a domain was previously resolved, it asks the user whethe
 Mimics a simple DNS cache system.
 
 Allows the user to clear cache if needed.
-# On start, user chooses to resolve domains or clear cache.
+On start, user chooses to resolve domains or clear cache.
 
 When resolving, it loads cache from dns_cache.json.
 
@@ -16,3 +16,4 @@ For each domain, if cached IPs exist, user is prompted to use them or fetch fres
 Freshly resolved IPs update the cache.
 
 Cache persists across runs.
+@w
