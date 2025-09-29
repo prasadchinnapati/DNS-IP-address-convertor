@@ -1,4 +1,4 @@
-# DNS-IP-address-convertor
+#DNS-IP-address-convertor
 Converts multiple domain names to IP addresses.
 Stores resolved IP addresses persistently in a JSON file (dns_cache.json).
 
@@ -16,4 +16,20 @@ For each domain, if cached IPs exist, user is prompted to use them or fetch fres
 Freshly resolved IPs update the cache.
 
 Cache persists across runs.
-@w
+
+# Example interaction:
+
+DNS Resolver with Cache
+Options:
+1. Resolve domains
+2. Clear cache
+Select option (1/2): 1
+Enter domain names separated by spaces or commas: google.com, github.com
+Use cached IPs for google.com?
+['142.250.72.206', '142.250.72.238'] (y/n): n
+IP addresses for google.com:
+142.250.72.206, 142.250.72.238
+Use cached IPs for github.com?
+ ['140.82.114.4'] (y/n): y
+IP addresses for github.com: 140.82.114.4
+
